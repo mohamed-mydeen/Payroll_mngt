@@ -181,3 +181,30 @@
   overflow-y: auto;
   border-radius: 8px;
 }
+
+@media (max-width: 768px) {
+  .app-layout {
+    flex-direction: column;
+    height: auto;
+    min-height: 100vh;
+  }
+  .sidebar {
+    width: auto;
+    margin: 16px;
+    padding: 16px;
+  }
+  .main-content {
+    padding: 0 16px 16px 16px;
+    height: auto;
+  }
+  .nav-menu {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .nav-link {
+    flex: 1;
+    justify-content: center;
+    padding: 8px;
+  }
+}
