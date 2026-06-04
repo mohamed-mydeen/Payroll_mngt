@@ -1,0 +1,40 @@
+<h2 mat-dialog-title style="margin-bottom: 0; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+  Apply for Leave
+</h2>
+
+<mat-dialog-content style="padding-top: 20px;">
+  <form [formGroup]="leaveForm" class="dialog-form">
+    <div *ngIf="errorMessage" class="error-alert">{{ errorMessage }}</div>
+
+    <div class="form-group">
+      <label>Employee</label>
+      <select formControlName="employeeId" class="form-control">
+        <option [ngValue]="null">-- Select Employee --</option>
+        <option *ngFor="let emp of employees" [ngValue]="emp.id">{{ emp.name }}</option>
+      </select>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Start Date</label>
+        <input type="date" formControlName="startDate" class="form-control">
+      </div>
+      <div class="form-group">
+        <label>End Date</label>
+        <input type="date" formControlName="endDate" class="form-control">
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Reason</label>
+      <textarea formControlName="reason" class="form-control" rows="3" placeholder="Reason for leave..."></textarea>
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="padding: 16px; border-top: 1px solid var(--border-color);">
+  <button class="secondary-btn" (click)="onCancel()" [disabled]="isSubmitting">Cancel</button>
+  <button class="premium-btn" (click)="onSubmit()" [disabled]="leaveForm.invalid || isSubmitting">
+    {{ isSubmitting ? 'Submitting...' : 'Apply Leave' }}
+  </button>
+</mat-dialog-actions>

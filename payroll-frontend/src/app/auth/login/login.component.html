@@ -1,0 +1,39 @@
+<div class="login-container">
+  <div class="panel login-box">
+    <div class="logo">
+      <div class="icon">💼</div>
+      <h2>Mini Payroll</h2>
+    </div>
+    
+    <p class="subtitle">Welcome back! Please login to your account.</p>
+
+    <form class="login-form" [formGroup]="loginForm" (ngSubmit)="onLogin()">
+      <div *ngIf="errorMessage" style="color: var(--danger); margin-bottom: 15px; text-align: center; font-size: 14px;">
+        {{ errorMessage }}
+      </div>
+      <div class="input-group">
+        <label for="email">Work Email</label>
+        <input type="email" id="email" formControlName="email" placeholder="admin@payroll.com">
+      </div>
+      
+      <div class="input-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" formControlName="password" placeholder="••••••••">
+      </div>
+      
+      <div class="options">
+        <div class="remember">
+          <input type="checkbox" id="remember">
+          <label for="remember" style="margin: 0;">Remember me</label>
+        </div>
+        <a href="#" class="forgot">Forgot Password?</a>
+      </div>
+
+      <button type="submit" class="premium-btn w-100" [disabled]="loginForm.invalid">Sign In to Dashboard</button>
+      
+      <div class="test-creds">
+        Test Login: admin&#64;payroll.com / admin123
+      </div>
+    </form>
+  </div>
+</div>

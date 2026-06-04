@@ -1,0 +1,68 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Payroll Processing</h2>
+      <p>Generate monthly salary slips based on attendance</p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
+      <div style="flex: 2; min-width: 200px;">
+        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Select Employee</label>
+        <select [(ngModel)]="selectedEmployeeId" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+          <option [ngValue]="null">-- Select Employee --</option>
+          <option *ngFor="let emp of employees" [ngValue]="emp.id">{{ emp.name }}</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 120px;">
+        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Month</label>
+        <select [(ngModel)]="selectedMonth" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+          <option *ngFor="let m of months" [ngValue]="m.value">{{ m.name }}</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 100px;">
+        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Year</label>
+        <select [(ngModel)]="selectedYear" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+          <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+        </select>
+      </div>
+
+      <div style="margin-bottom: 2px;">
+        <button class="premium-btn" (click)="generatePayroll()" [disabled]="!selectedEmployeeId || isGenerating">
+          {{ isGenerating ? 'Calculating...' : 'Generate Payroll' }}
+        </button>
+      </div>
+    </div>
+    
+    <div *ngIf="errorMessage" style="margin-top: 16px; padding: 10px; background: var(--danger-light); color: var(--danger); border-radius: 6px; font-size: 14px;">{{ errorMessage }}</div>
+  </div>
+
+  <div *ngIf="!generatedPayroll" class="panel" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+    <div style="font-size: 48px; margin-bottom: 20px;">💰</div>
+    <h3>Select an employee to generate payroll</h3>
+    <p>Payroll generation calculates salary based on attendance records.</p>
+  </div>
+
+  <div *ngIf="generatedPayroll" class="panel" style="padding: 24px;">
+    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid var(--border-color); padding-bottom: 16px; margin-bottom: 24px;">
+      <h3 style="margin: 0; color: var(--primary);">Salary Slip</h3>
+      <span style="font-size: 14px; font-weight: 500; color: var(--text-secondary);">
+        Period: {{ selectedMonth }}/{{ selectedYear }}
+      </span>
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px;">
+      <div>
+        <p style="margin: 0 0 8px 0; font-size: 13px; color: var(--text-secondary);">Days Present</p>
+        <p style="margin: 0; font-size: 24px; font-weight: 600;">{{ generatedPayroll.totalPresent }}</p>
+      </div>
+      <div>
+        <p style="margin: 0 0 8px 0; font-size: 13px; color: var(--text-secondary);">Calculated Salary</p>
+        <p style="margin: 0; font-size: 32px; font-weight: 700; color: var(--accent);">₹{{ generatedPayroll.calculatedSalary | number:'1.2-2' }}</p>
+      </div>
+    </div>
+  </div>
+</div>

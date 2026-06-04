@@ -1,0 +1,75 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Leave Requests</h2>
+      <p>Manage and track employee time off</p>
+    </div>
+    <button class="premium-btn" (click)="openApplyLeaveDialog()">Apply for Leave</button>
+  </div>
+
+  <div class="panel table-container">
+    <table mat-table [dataSource]="dataSource" class="premium-table">
+      <!-- ID Column -->
+      <ng-container matColumnDef="id">
+        <th mat-header-cell *matHeaderCellDef> ID </th>
+        <td mat-cell *matCellDef="let element"> #{{ element.id }} </td>
+      </ng-container>
+
+      <!-- Employee Column -->
+      <ng-container matColumnDef="employee">
+        <th mat-header-cell *matHeaderCellDef> Employee </th>
+        <td mat-cell *matCellDef="let element" class="user-cell">
+          <div class="avatar-sm">{{ getEmployeeName(element.employeeId).charAt(0) }}</div>
+          {{ getEmployeeName(element.employeeId) }}
+        </td>
+      </ng-container>
+
+      <!-- Dates Column -->
+      <ng-container matColumnDef="dates">
+        <th mat-header-cell *matHeaderCellDef> Dates </th>
+        <td mat-cell *matCellDef="let element"> {{ element.startDate }} to {{ element.endDate }} </td>
+      </ng-container>
+      
+      <!-- Reason Column -->
+      <ng-container matColumnDef="reason">
+        <th mat-header-cell *matHeaderCellDef> Reason </th>
+        <td mat-cell *matCellDef="let element" style="max-width: 200px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" [title]="element.reason">
+          {{ element.reason }} 
+        </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element">
+          <span class="badge"
+            [style.background]="element.status === 'APPROVED' ? 'var(--accent-light)' : (element.status === 'REJECTED' ? 'var(--danger-light)' : 'var(--warning-light)')"
+            [style.color]="element.status === 'APPROVED' ? 'var(--accent)' : (element.status === 'REJECTED' ? 'var(--danger)' : 'var(--warning)')"
+            style="padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+            {{ element.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <!-- Actions Column -->
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let element">
+          <div style="display: flex; gap: 8px;" *ngIf="element.status === 'PENDING'">
+            <button class="icon-btn-sm" title="Approve" (click)="updateStatus(element.id, 'APPROVED')" style="color: var(--accent); border: 1px solid var(--accent); padding: 4px 8px;">✓</button>
+            <button class="icon-btn-sm danger" title="Reject" (click)="updateStatus(element.id, 'REJECTED')" style="color: var(--danger); border: 1px solid var(--danger); padding: 4px 8px;">✗</button>
+          </div>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <div *ngIf="dataSource.length === 0" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+      <div style="font-size: 48px; margin-bottom: 20px;">✈️</div>
+      <h3>No leave requests found</h3>
+      <p>All caught up!</p>
+    </div>
+  </div>
+</div>

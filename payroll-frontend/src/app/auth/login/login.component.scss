@@ -1,0 +1,113 @@
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+  background-color: var(--bg-color);
+}
+
+.login-box {
+  width: 100%;
+  max-width: 420px;
+  padding: 40px;
+  animation: slideUp 0.6s ease-out;
+  background: var(--surface-color);
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+.logo {
+  text-align: center;
+  margin-bottom: 10px;
+}
+
+.logo .icon {
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.logo h2 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--text-secondary);
+  font-size: 14px;
+  margin-bottom: 30px;
+}
+
+.login-form .input-group {
+  margin-bottom: 20px;
+}
+
+.login-form label {
+  display: block;
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin-bottom: 8px;
+  font-weight: 500;
+}
+
+.login-form input[type="email"],
+.login-form input[type="password"] {
+  width: 100%;
+  padding: 12px 16px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-family: 'Inter', sans-serif;
+  box-sizing: border-box;
+  transition: all 0.3s ease;
+}
+
+.login-form input:focus {
+  outline: none;
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 30px;
+  font-size: 13px;
+}
+
+.remember {
+  color: var(--text-secondary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.forgot {
+  color: var(--primary);
+  text-decoration: none;
+}
+
+.forgot:hover {
+  text-decoration: underline;
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.test-creds {
+  margin-top: 20px;
+  text-align: center;
+  color: var(--text-secondary);
+  opacity: 0.7;
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}

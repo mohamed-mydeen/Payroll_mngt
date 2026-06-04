@@ -1,0 +1,112 @@
+.dashboard-container {
+  padding: 16px;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 20px;
+  margin-bottom: 24px;
+}
+
+.stat-card {
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+}
+
+.stat-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+}
+
+.stat-icon.employees { background: var(--primary-light); color: var(--primary); }
+.stat-icon.present { background: var(--accent-light); color: var(--accent); }
+.stat-icon.leaves { background: var(--warning-light); color: var(--warning); }
+.stat-icon.payroll { background: rgba(139, 92, 246, 0.1); color: #8b5cf6; }
+
+.stat-info h3 {
+  margin: 0 0 4px 0;
+  font-size: 13px;
+  text-transform: uppercase;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.stat-info h2 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+
+.recent-activity {
+  padding: 24px;
+}
+
+.recent-activity h3 {
+  margin: 0 0 20px 0;
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.activity-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.activity-list li {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.activity-list li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.dot {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-top: 4px;
+}
+
+.dot.primary { background: var(--primary); }
+.dot.success { background: var(--accent); }
+.dot.warning { background: var(--warning); }
+
+.act-text {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-size: 14px;
+}
+
+.time {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}

@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: payroll-backend
+  datasource:
+    url: jdbc:mysql://localhost:3306/payroll_db?createDatabaseIfNotExist=true&useSSL=false&serverTimezone=UTC&allowPublicKeyRetrieval=true
+    username: root
+    password: Mohamedmydeen@4262
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+jwt:
+  secret: c2VjcmV0a2V5Z2VuZXJhdGVkZm9ybWluaXBheXJvbGxzeXN0ZW0yMDI0
+  expiration: 86400000
+
+server:
+  port: 8080

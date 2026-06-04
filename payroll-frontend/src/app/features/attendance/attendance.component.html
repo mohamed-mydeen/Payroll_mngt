@@ -1,0 +1,63 @@
+<div class="page-container">
+  <div class="page-header">
+    <div>
+      <h2>Attendance Tracker</h2>
+      <p>Mark daily attendance and view history</p>
+    </div>
+  </div>
+
+  <div class="panel" style="margin-bottom: 24px;">
+    <div style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
+      <div style="flex: 1; min-width: 250px;">
+        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Select Employee</label>
+        <select [(ngModel)]="selectedEmployeeId" (change)="onEmployeeSelect()" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+          <option [ngValue]="null">-- Select an Employee --</option>
+          <option *ngFor="let emp of employees" [ngValue]="emp.id">{{ emp.name }} ({{ emp.roleType }})</option>
+        </select>
+      </div>
+
+      <div style="flex: 1; min-width: 200px;">
+        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Date</label>
+        <input type="date" [(ngModel)]="attendanceDate" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); box-sizing: border-box;">
+      </div>
+
+      <div style="display: flex; gap: 12px; margin-bottom: 2px;">
+        <button class="premium-btn" (click)="markAttendance('PRESENT')" [disabled]="!selectedEmployeeId || isSubmitting">Mark Present</button>
+        <button class="secondary-btn" style="border: 1px solid var(--danger); color: var(--danger); background: transparent; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500;" (click)="markAttendance('ABSENT')" [disabled]="!selectedEmployeeId || isSubmitting">Mark Absent</button>
+      </div>
+    </div>
+    
+    <div *ngIf="errorMessage" style="margin-top: 16px; padding: 10px; background: var(--danger-light); color: var(--danger); border-radius: 6px; font-size: 14px;">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" style="margin-top: 16px; padding: 10px; background: var(--accent-light); color: var(--accent); border-radius: 6px; font-size: 14px;">{{ successMessage }}</div>
+  </div>
+
+  <div class="panel table-container" *ngIf="selectedEmployeeId">
+    <h3 style="margin: 0 0 16px 0;">Attendance History</h3>
+    <table mat-table [dataSource]="dataSource" class="premium-table">
+      <!-- Date Column -->
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
+      </ng-container>
+
+      <!-- Status Column -->
+      <ng-container matColumnDef="status">
+        <th mat-header-cell *matHeaderCellDef> Status </th>
+        <td mat-cell *matCellDef="let element"> 
+          <span class="badge" [ngClass]="element.status === 'PRESENT' ? 'success' : 'danger'" style="padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;"
+            [style.background]="element.status === 'PRESENT' ? 'var(--accent-light)' : 'var(--danger-light)'"
+            [style.color]="element.status === 'PRESENT' ? 'var(--accent)' : 'var(--danger)'">
+            {{ element.status }}
+          </span>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+    
+    <div *ngIf="dataSource.length === 0" style="padding: 20px; text-align: center; color: var(--text-secondary);">
+      No attendance records found for this employee.
+    </div>
+  </div>
+</div>

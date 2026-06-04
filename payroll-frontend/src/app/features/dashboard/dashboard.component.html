@@ -1,0 +1,55 @@
+<div class="dashboard-container">
+  <div class="stats-grid">
+    <div class="stat-card panel">
+      <div class="stat-icon employees">👥</div>
+      <div class="stat-info">
+        <h3>Total Employees</h3>
+        <h2>{{ totalEmployees }}</h2>
+      </div>
+    </div>
+    
+    <div class="stat-card panel">
+      <div class="stat-icon present">✅</div>
+      <div class="stat-info">
+        <h3>Approved Leaves</h3>
+        <h2>{{ approvedLeaves }}</h2>
+      </div>
+    </div>
+    
+    <div class="stat-card panel">
+      <div class="stat-icon leaves">✈️</div>
+      <div class="stat-info">
+        <h3>Pending Leaves</h3>
+        <h2>{{ pendingLeaves }}</h2>
+      </div>
+    </div>
+    
+    <div class="stat-card panel">
+      <div class="stat-icon payroll" style="background: var(--danger-light); color: var(--danger);">✗</div>
+      <div class="stat-info">
+        <h3>Rejected Leaves</h3>
+        <h2>{{ rejectedLeaves }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <div class="recent-activity panel">
+    <h3>System Status</h3>
+    <ul class="activity-list">
+      <li>
+        <span class="dot primary"></span>
+        <div class="act-text">
+          <strong>System</strong> is operating normally.
+          <span class="time">Just now</span>
+        </div>
+      </li>
+      <li>
+        <span class="dot success"></span>
+        <div class="act-text">
+          <strong>Database</strong> connection established.
+          <span class="time">Today</span>
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>

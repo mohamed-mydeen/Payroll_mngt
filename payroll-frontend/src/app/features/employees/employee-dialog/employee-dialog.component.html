@@ -1,0 +1,51 @@
+<h2 mat-dialog-title style="margin-bottom: 0; padding-bottom: 16px; border-bottom: 1px solid var(--border-color);">
+  {{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}
+</h2>
+
+<mat-dialog-content style="padding-top: 20px;">
+  <form [formGroup]="employeeForm" class="dialog-form">
+    <div *ngIf="errorMessage" class="error-alert">{{ errorMessage }}</div>
+
+    <div class="form-group">
+      <label>Full Name</label>
+      <input type="text" formControlName="name" placeholder="e.g. John Doe" class="form-control">
+    </div>
+
+    <div class="form-group">
+      <label>Email Address</label>
+      <input type="email" formControlName="email" placeholder="e.g. john@payroll.com" class="form-control">
+      <small style="color: var(--text-secondary); font-size: 11px; margin-top: 4px;">Default password will be "default123"</small>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group">
+        <label>Work Model</label>
+        <select formControlName="roleType" class="form-control">
+          <option value="WFH">Work From Home (WFH)</option>
+          <option value="OFFICE">Office</option>
+          <option value="ONSITE">On-Site</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label>Salary Type</label>
+        <select formControlName="salaryType" class="form-control">
+          <option value="MONTHLY">Monthly</option>
+          <option value="DAILY">Daily</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label>Salary Amount</label>
+      <input type="number" formControlName="salaryAmount" placeholder="Amount" class="form-control">
+    </div>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end" style="padding: 16px; border-top: 1px solid var(--border-color);">
+  <button class="secondary-btn" (click)="onCancel()" [disabled]="isSubmitting">Cancel</button>
+  <button class="premium-btn" (click)="onSubmit()" [disabled]="employeeForm.invalid || isSubmitting">
+    {{ isSubmitting ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Create Employee') }}
+  </button>
+</mat-dialog-actions>

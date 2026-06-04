@@ -1,0 +1,49 @@
+.table-container {
+  overflow-x: auto;
+  padding: 8px;
+}
+
+.premium-table {
+  width: 100%;
+}
+
+.user-cell {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 500;
+}
+
+.avatar-sm {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--primary-light);
+  color: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.icon-btn-sm {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 4px;
+  transition: all 0.2s;
+  font-size: 16px;
+  color: var(--text-secondary);
+}
+
+.icon-btn-sm:hover {
+  background: var(--bg-color);
+  color: var(--primary);
+}
+
+.icon-btn-sm.danger:hover {
+  background: var(--danger-light);
+  color: var(--danger);
+}
