@@ -8,7 +8,10 @@
   </div>
 
   <div class="panel table-container">
-    <table mat-table [dataSource]="dataSource" class="premium-table">
+    <div *ngIf="isLoading" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+      <h3>Loading leave requests...</h3>
+    </div>
+    <table mat-table [dataSource]="dataSource" class="premium-table" *ngIf="!isLoading && dataSource.length > 0">
       <!-- ID Column -->
       <ng-container matColumnDef="id">
         <th mat-header-cell *matHeaderCellDef> ID </th>

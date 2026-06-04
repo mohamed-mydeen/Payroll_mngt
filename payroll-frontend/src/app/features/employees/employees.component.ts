@@ -16,6 +16,7 @@ import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/c
 export class EmployeesComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'roleType', 'salaryAmount', 'actions'];
   dataSource: Employee[] = [];
+  isLoading: boolean = true;
 
   constructor(
     private employeeService: EmployeeService,
@@ -27,11 +28,16 @@ export class EmployeesComponent implements OnInit {
   }
 
   loadEmployees() {
+    this.isLoading = true;
     this.employeeService.getEmployees().subscribe({
       next: (data) => {
         this.dataSource = data;
+        this.isLoading = false;
       },
-      error: (err) => console.error('Error fetching employees', err)
+      error: (err) => {
+        console.error('Error fetching employees', err);
+        this.isLoading = false;
+      }
     });
   }
 

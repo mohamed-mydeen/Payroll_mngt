@@ -18,6 +18,7 @@ export class LeavesComponent implements OnInit {
   displayedColumns: string[] = ['id', 'employee', 'dates', 'reason', 'status', 'actions'];
   dataSource: LeaveRequest[] = [];
   employeesMap: { [id: number]: string } = {};
+  isLoading: boolean = true;
 
   constructor(
     private leaveService: LeaveService,
@@ -33,9 +34,16 @@ export class LeavesComponent implements OnInit {
   }
 
   loadLeaves() {
+    this.isLoading = true;
     this.leaveService.getAllLeaves().subscribe({
-      next: (data) => this.dataSource = data,
-      error: (err) => console.error('Failed to load leaves', err)
+      next: (data) => {
+        this.dataSource = data;
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.error('Failed to load leaves', err);
+        this.isLoading = false;
+      }
     });
   }
 
