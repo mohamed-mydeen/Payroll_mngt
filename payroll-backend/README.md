@@ -82,5 +82,5 @@ ng serve
 The frontend will be accessible at `http://localhost:4200`.
 
 ### 4. Test Credentials
-- **Email**: `admin@payroll.com`
-- **Password**: `admin123`
+- **Email**: `mydeen@gmail.com`
+- **Password**: `12345`
