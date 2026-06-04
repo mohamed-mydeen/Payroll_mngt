@@ -1,52 +1,93 @@
-# Mini Payroll & Attendance System
+# Full-Stack Mini Payroll & Attendance SaaS
 
-A production-ready SaaS MVP for managing employee payroll, attendance, and leaves.
+A production-ready, beautifully designed SaaS MVP for managing employee payroll, attendance, and leaves. This project fulfills all requirements for a complete, end-to-end full-stack application assignment.
 
-## Architecture
+## 🚀 Features & Assignment Fulfillment
 
-*   **Frontend:** Angular 18 (Standalone Components, Angular Material, Glassmorphism UI)
-*   **Backend:** Spring Boot 3.2.5 (Java 21, Spring Security, JWT)
-*   **Database:** PostgreSQL 15
+### 1. Security & Authentication
+- **JWT Authentication:** All backend endpoints are secured via JWT bearer tokens.
+- **BCrypt Password Hashing:** User passwords are encrypted in the database.
+- **Frontend Route Guards:** Unauthorized users are automatically kicked back to the login screen.
 
-## System Design
+### 2. Employee Management (CRUD)
+- Create new employees with predefined roles (WFH, Office, On-site) and salary types (Monthly, Daily).
+- View all employees in a clean directory.
+- Update existing employees.
+- Delete employees (cascades to delete their attendance, leaves, and payroll records).
+- **Confirmation Dialogs** to prevent accidental deletions.
 
-*   **Role-Based Access Control:** Users are seeded via `DataSeeder`. Admins manage employees and payroll. Employees view their own data.
-*   **Payroll Core Logic:** Calculated as `(salary / 30) * presentDays` for Monthly, or `dailyWage * presentDays` for Daily.
-*   **Entities:**
-    *   `Employee` (1:M with Attendance, Leave, Payroll)
-    *   `Attendance` (Unique constraint on employee + date)
-    *   `LeaveRequest` (Pending, Approved, Rejected)
-    *   `Payroll` (Generated monthly)
+### 3. Attendance Tracking
+- Admins can select an employee and date to mark them as `PRESENT` or `ABSENT`.
+- Attendance is used directly in the Payroll calculation.
 
-## API Endpoints
+### 4. Leave Management
+- Employees/Admins can apply for leave.
+- Admins can Approve or Reject leaves using a global Confirmation Dialog.
 
-*   **Auth:** `POST /api/auth/login` -> Returns JWT token
-*   **Employees:** `GET /api/employees`, `POST /api/employees`
-*   **Attendance:** `POST /api/attendance`, `GET /api/attendance/employee/{id}`
-*   **Leaves:** `POST /api/leaves`, `PATCH /api/leaves/{id}/status`
-*   **Payroll:** `POST /api/payroll/generate/{employeeId}`
+### 5. Automated Payroll Generator
+- Calculates salary dynamically based on attendance:
+  - **Monthly Wage:** `(Monthly Salary / 30) × Present Days`
+  - **Daily Wage:** `Daily Wage × Present Days`
+- Generates and stores immutable payroll records per month.
 
-## Deployment Instructions (Live URL)
+---
 
-To satisfy the "Live URL" deployment requirement, follow these simple steps to deploy this full-stack application to the cloud for free:
+## 🛠️ Technology Stack
 
-### 1. Database (Supabase / Render PostgreSQL)
-1. Create a free PostgreSQL database on [Render](https://render.com) or [Supabase](https://supabase.com).
-2. Copy the Database URL.
+*   **Frontend:** Angular 18 (Standalone Components, RxJS, Angular Material, Glassmorphism UI styling)
+*   **Backend:** Spring Boot 3.2.5 (Java 21, Spring Security, JWT, Spring Data JPA, Hibernate)
+*   **Database:** MySQL
 
-### 2. Backend (Render)
-1. Push this repository to GitHub.
-2. Go to [Render](https://render.com), create a new **Web Service**, and connect your GitHub repo.
-3. Set the Root Directory to `payroll-backend`.
-4. Build Command: `mvn clean package -DskipTests`
-5. Start Command: `java -jar target/payroll-backend-0.0.1-SNAPSHOT.jar`
-6. Add Environment Variables:
-   * `SPRING_DATASOURCE_URL` = your database URL
-   * `SPRING_DATASOURCE_USERNAME` = your DB username
-   * `SPRING_DATASOURCE_PASSWORD` = your DB password
+---
 
-### 3. Frontend (Vercel)
-1. Go to [Vercel](https://vercel.com) and import the GitHub repository.
-2. Set the Root Directory to `payroll-frontend`.
-3. Build Command: `npm run build`
-4. Deploy! Your app is now live with a public URL.
+## 💻 How to Run Locally
+
+### 1. Database Setup
+1. Open **MySQL Workbench** and ensure your local server is running on port `3306`.
+2. Ensure you have a schema named `payroll_db` (or allow Spring Boot to auto-create it).
+3. Open `payroll-backend/src/main/resources/application.yml`.
+4. Update the `username` and `password` to match your local MySQL Workbench credentials.
+
+### 2. Run the Backend (Spring Boot)
+Open a terminal in the `payroll-backend` directory and run:
+```bash
+mvn spring-boot:run
+```
+*(The backend runs on `http://localhost:8080`. The database tables and default admin user will be automatically created on startup).*
+
+### 3. Run the Frontend (Angular)
+Open a new terminal in the `payroll-frontend` directory and run:
+```bash
+npm install
+npm start
+```
+*(The frontend runs on `http://localhost:4200`)*.
+
+---
+
+## 🔐 Default Login Credentials
+
+Upon the first backend startup, an Admin user is automatically seeded into the database. Use these credentials to log in:
+
+- **Email:** `admin@payroll.com`
+- **Password:** `admin123`
+
+---
+
+## 🌍 Deployment Instructions (To host Live)
+
+If you wish to deploy this to the internet so evaluators don't have to install it locally:
+
+1. **Database:** Create a free MySQL database on [Aiven](https://aiven.io/) or [Clever-Cloud](https://www.clever-cloud.com/).
+2. **Backend (Render):** 
+   - Push this code to GitHub.
+   - Go to [Render](https://render.com) -> New Web Service.
+   - Set Root Directory to `payroll-backend`.
+   - Build Command: `mvn clean package -DskipTests`
+   - Start Command: `java -jar target/payroll-backend-0.0.1-SNAPSHOT.jar`
+   - Add Environment Variables for your live Database URL, Username, and Password.
+3. **Frontend (Vercel):**
+   - Go to [Vercel](https://vercel.com) -> Import GitHub Project.
+   - Set Root Directory to `payroll-frontend`.
+   - Ensure the API URL in `environment.ts` points to your new Render backend URL.
+   - Click Deploy.
