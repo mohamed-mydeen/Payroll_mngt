@@ -11,11 +11,13 @@ export interface LeaveRequest {
   status: 'PENDING' | 'APPROVED' | 'REJECTED';
 }
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class LeaveService {
-  private apiUrl = 'https://payroll-mngt-j990.onrender.com/api/leaves';
+  private apiUrl = `${environment.apiUrl}/leaves`;
 
   constructor(private http: HttpClient) {}
 

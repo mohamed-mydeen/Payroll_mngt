@@ -11,11 +11,13 @@ export interface Employee {
   salaryAmount: number;
 }
 
+import { environment } from '../../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'https://payroll-mngt-j990.onrender.com/api/employees';
+  private apiUrl = `${environment.apiUrl}/employees`;
 
   constructor(private http: HttpClient) {}
 
