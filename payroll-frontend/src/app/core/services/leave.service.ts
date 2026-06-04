@@ -15,7 +15,7 @@ export interface LeaveRequest {
   providedIn: 'root'
 })
 export class LeaveService {
-  private apiUrl = 'http://localhost:8080/api/leaves';
+  private apiUrl = 'https://payroll-mngt-j990.onrender.com/api/leaves';
 
   constructor(private http: HttpClient) {}
 

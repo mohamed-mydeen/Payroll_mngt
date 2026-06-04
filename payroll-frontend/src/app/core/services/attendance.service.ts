@@ -13,7 +13,7 @@ export interface Attendance {
   providedIn: 'root'
 })
 export class AttendanceService {
-  private apiUrl = 'http://localhost:8080/api/attendance';
+  private apiUrl = 'https://payroll-mngt-j990.onrender.com/api/attendance';
 
   constructor(private http: HttpClient) {}
 

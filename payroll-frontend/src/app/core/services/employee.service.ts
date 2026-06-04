@@ -15,7 +15,7 @@ export interface Employee {
   providedIn: 'root'
 })
 export class EmployeeService {
-  private apiUrl = 'http://localhost:8080/api/employees';
+  private apiUrl = 'https://payroll-mngt-j990.onrender.com/api/employees';
 
   constructor(private http: HttpClient) {}
 
