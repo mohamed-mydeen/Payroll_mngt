@@ -30,7 +30,7 @@
         </select>
       </div>
 
-      <div style="margin-bottom: 2px;">
+      <div>
         <button class="premium-btn" (click)="generatePayroll()" [disabled]="!selectedEmployeeId || isGenerating">
           {{ isGenerating ? 'Calculating...' : 'Generate Payroll' }}
         </button>
