@@ -34,7 +34,7 @@ A production-ready, beautifully designed SaaS MVP for managing employee payroll,
 
 ## 🛠️ Technology Stack
 
-*   **Frontend:** Angular 18 (Standalone Components, RxJS, Angular Material, Glassmorphism UI styling)
+*   **Frontend:** Angular 18 (Standalone Components, RxJS, Angular Material, Clean Corporate UI styling)
 *   **Backend:** Spring Boot 3.2.5 (Java 21, Spring Security, JWT, Spring Data JPA, Hibernate)
 *   **Database:** MySQL
 
