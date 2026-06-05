@@ -21,13 +21,7 @@
         <input type="password" id="password" formControlName="password" placeholder="••••••••">
       </div>
       
-      <div class="options">
-        <div class="remember">
-          <input type="checkbox" id="remember">
-          <label for="remember" style="margin: 0;">Remember me</label>
-        </div>
-        <a href="javascript:void(0)" (click)="onForgotPassword($event)" class="forgot">Forgot Password?</a>
-      </div>
+
 
       <button type="submit" class="premium-btn w-100" [disabled]="loginForm.invalid || isLoading">
         {{ isLoading ? 'Signing in...' : 'Sign In to Dashboard' }}

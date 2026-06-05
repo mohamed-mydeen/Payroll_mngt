@@ -43,9 +43,4 @@ export class LoginComponent {
       });
     }
   }
-
-  onForgotPassword(event: Event) {
-    event.preventDefault();
-    alert('Password reset link will be sent to your email.');
-  }
 }
