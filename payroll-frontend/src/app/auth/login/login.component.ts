@@ -31,7 +31,13 @@ export class LoginComponent {
     if (this.loginForm.valid) {
       this.isLoading = true;
       this.errorMessage = '';
-      this.authService.login(this.loginForm.value).subscribe({
+      
+      const credentials = {
+        email: this.loginForm.value.email.trim(),
+        password: this.loginForm.value.password
+      };
+
+      this.authService.login(credentials).subscribe({
         next: () => {
           this.isLoading = false;
           this.router.navigate(['/dashboard']);
