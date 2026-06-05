@@ -35,4 +35,9 @@ public class AuthController {
         response.setRole(userDetails.getAuthorities().iterator().next().getAuthority());
         return ResponseEntity.ok(response);
     }
+
+    @GetMapping("/health")
+    public ResponseEntity<String> healthCheck() {
+        return ResponseEntity.ok("Backend is awake!");
+    }
 }

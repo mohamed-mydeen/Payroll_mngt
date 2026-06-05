@@ -30,6 +30,10 @@ export class AuthService {
     );
   }
 
+  wakeUpBackend(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/health`, { responseType: 'text' });
+  }
+
   logout() {
     localStorage.removeItem('token');
     localStorage.removeItem('employeeId');

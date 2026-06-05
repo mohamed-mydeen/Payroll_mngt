@@ -14,6 +14,7 @@ import { CommonModule } from '@angular/common';
 export class LoginComponent {
   loginForm: FormGroup;
   errorMessage = '';
+  isLoading = false;
   
   constructor(
     private router: Router, 
@@ -28,10 +29,23 @@ export class LoginComponent {
 
   onLogin() {
     if (this.loginForm.valid) {
+      this.isLoading = true;
+      this.errorMessage = '';
       this.authService.login(this.loginForm.value).subscribe({
-        next: () => this.router.navigate(['/dashboard']),
-        error: (err) => this.errorMessage = 'Invalid email or password'
+        next: () => {
+          this.isLoading = false;
+          this.router.navigate(['/dashboard']);
+        },
+        error: (err) => {
+          this.isLoading = false;
+          this.errorMessage = 'Invalid email or password';
+        }
       });
     }
+  }
+
+  onForgotPassword(event: Event) {
+    event.preventDefault();
+    alert('Password reset link will be sent to your email.');
   }
 }
