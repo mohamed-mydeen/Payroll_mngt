@@ -69,8 +69,8 @@ npm start
 
 Upon the first backend startup, an Admin user is automatically seeded into the database. Use these credentials to log in:
 
-- **Email:** `admin@payroll.com`
-- **Password:** `admin123`
+- **Email:** `mydeen@gmail.com`
+- **Password:** `12345`
 
 ---
 
