@@ -44,8 +44,10 @@ export class LoginComponent {
         },
         error: (err) => {
           this.isLoading = false;
-          if (err.status === 401 || err.status === 403) {
+          if (err.status === 401) {
             this.errorMessage = 'Invalid email or password';
+          } else if (err.status === 403) {
+            this.errorMessage = 'Access denied. Please contact your administrator.';
           } else {
             this.errorMessage = 'Could not connect to the server. Please try again.';
           }

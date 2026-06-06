@@ -21,10 +21,10 @@ public class DataSeeder implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        if (employeeRepository.findByEmail("mydeen@gmail.com").isEmpty()) {
+        if (employeeRepository.findByEmail("mohamedmydeen.sd@gmail.com").isEmpty()) {
             Employee admin = Employee.builder()
                     .name("System Admin")
-                    .email("mydeen@gmail.com")
+                    .email("mohamedmydeen.sd@gmail.com")
                     .password(passwordEncoder.encode("12345"))
                     .roleType(RoleType.OFFICE)
                     .salaryType(SalaryType.MONTHLY)
