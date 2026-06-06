@@ -10,5 +10,6 @@ import java.util.Optional;
 public interface AttendanceRepository extends JpaRepository<Attendance, Long> {
     List<Attendance> findByEmployeeId(Long employeeId);
     Optional<Attendance> findByEmployeeAndDate(Employee employee, LocalDate date);
+    List<Attendance> findByEmployeeIdAndDateBetween(Long employeeId, LocalDate start, LocalDate end);
     int countByEmployeeIdAndDateBetweenAndStatus(Long employeeId, LocalDate start, LocalDate end, com.payroll.entity.enums.AttendanceStatus status);
 }

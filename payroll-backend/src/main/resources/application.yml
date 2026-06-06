@@ -13,6 +13,11 @@ spring:
     properties:
       hibernate:
         format_sql: true
+  jackson:
+    serialization:
+      write-dates-as-timestamps: false
+    deserialization:
+      fail-on-unknown-properties: false
 
 jwt:
   secret: c2VjcmV0a2V5Z2VuZXJhdGVkZm9ybWluaXBheXJvbGxzeXN0ZW0yMDI0

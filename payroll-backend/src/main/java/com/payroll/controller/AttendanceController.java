@@ -25,4 +25,12 @@ public class AttendanceController {
     public ResponseEntity<List<AttendanceDto>> getAttendanceByEmployee(@PathVariable Long id) {
         return ResponseEntity.ok(attendanceService.getAttendanceByEmployee(id));
     }
+
+    @GetMapping("/employee/{id}/month")
+    public ResponseEntity<List<AttendanceDto>> getAttendanceByMonth(
+            @PathVariable Long id,
+            @RequestParam int year,
+            @RequestParam int month) {
+        return ResponseEntity.ok(attendanceService.getAttendanceByEmployeeAndMonth(id, year, month));
+    }
 }

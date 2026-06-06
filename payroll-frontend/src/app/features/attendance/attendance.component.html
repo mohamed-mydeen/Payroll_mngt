@@ -2,62 +2,143 @@
   <div class="page-header">
     <div>
       <h2>Attendance Tracker</h2>
-      <p>Mark daily attendance and view history</p>
+      <p>Mark daily attendance and view monthly history</p>
     </div>
   </div>
 
+  <!-- Mark Attendance Panel -->
   <div class="panel" style="margin-bottom: 24px;">
+    <h3 style="margin: 0 0 16px 0; font-size: 15px; color: var(--text-secondary); font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">Mark Attendance</h3>
     <div style="display: flex; gap: 16px; align-items: flex-end; flex-wrap: wrap;">
-      <div style="flex: 1; min-width: 250px;">
-        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Select Employee</label>
-        <select [(ngModel)]="selectedEmployeeId" (change)="onEmployeeSelect()" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color);">
+      <!-- Employee Select -->
+      <div style="flex: 1; min-width: 240px;">
+        <label class="form-label">Select Employee</label>
+        <select [(ngModel)]="selectedEmployeeId" (change)="onEmployeeSelect()" class="form-select">
           <option [ngValue]="null">-- Select an Employee --</option>
           <option *ngFor="let emp of employees" [ngValue]="emp.id">{{ emp.name }} ({{ emp.roleType }})</option>
         </select>
       </div>
 
-      <div style="flex: 1; min-width: 200px;">
-        <label style="display: block; font-size: 13px; color: var(--text-secondary); margin-bottom: 6px;">Date</label>
-        <input type="date" [(ngModel)]="attendanceDate" style="width: 100%; padding: 10px; border-radius: 6px; border: 1px solid var(--border-color); box-sizing: border-box;">
+      <!-- Date -->
+      <div style="flex: 1; min-width: 180px;">
+        <label class="form-label">Date</label>
+        <input type="date" [(ngModel)]="attendanceDate" class="form-select">
       </div>
 
-      <div style="display: flex; gap: 12px; margin-bottom: 2px;">
-        <button class="premium-btn" (click)="markAttendance('PRESENT')" [disabled]="!selectedEmployeeId || isSubmitting">Mark Present</button>
-        <button class="secondary-btn" style="border: 1px solid var(--danger); color: var(--danger); background: transparent; padding: 10px 20px; border-radius: 6px; cursor: pointer; font-weight: 500;" (click)="markAttendance('ABSENT')" [disabled]="!selectedEmployeeId || isSubmitting">Mark Absent</button>
+      <!-- Action Buttons -->
+      <div style="display: flex; gap: 12px; padding-bottom: 2px;">
+        <button class="premium-btn" (click)="markAttendance('PRESENT')"
+          [disabled]="!selectedEmployeeId || isSubmitting"
+          style="min-width: 130px;">
+          {{ isSubmitting ? 'Saving...' : '✓ Mark Present' }}
+        </button>
+        <button class="absent-btn" (click)="markAttendance('ABSENT')"
+          [disabled]="!selectedEmployeeId || isSubmitting"
+          style="min-width: 130px;">
+          ✗ Mark Absent
+        </button>
       </div>
     </div>
-    
-    <div *ngIf="errorMessage" style="margin-top: 16px; padding: 10px; background: var(--danger-light); color: var(--danger); border-radius: 6px; font-size: 14px;">{{ errorMessage }}</div>
-    <div *ngIf="successMessage" style="margin-top: 16px; padding: 10px; background: var(--accent-light); color: var(--accent); border-radius: 6px; font-size: 14px;">{{ successMessage }}</div>
+
+    <!-- Feedback Messages -->
+    <div *ngIf="errorMessage" class="alert-danger" style="margin-top: 16px;">{{ errorMessage }}</div>
+    <div *ngIf="successMessage" class="alert-success" style="margin-top: 16px;">{{ successMessage }}</div>
   </div>
 
-  <div class="panel table-container" *ngIf="selectedEmployeeId">
-    <h3 style="margin: 0 0 16px 0;">Attendance History</h3>
-    <table mat-table [dataSource]="dataSource" class="premium-table">
-      <!-- Date Column -->
-      <ng-container matColumnDef="date">
-        <th mat-header-cell *matHeaderCellDef> Date </th>
-        <td mat-cell *matCellDef="let element"> {{ element.date }} </td>
-      </ng-container>
+  <!-- History Panel (shown only when employee is selected) -->
+  <div *ngIf="selectedEmployeeId">
 
-      <!-- Status Column -->
-      <ng-container matColumnDef="status">
-        <th mat-header-cell *matHeaderCellDef> Status </th>
-        <td mat-cell *matCellDef="let element"> 
-          <span class="badge" [ngClass]="element.status === 'PRESENT' ? 'success' : 'danger'" style="padding: 4px 10px; border-radius: 20px; font-size: 12px; font-weight: 600;"
-            [style.background]="element.status === 'PRESENT' ? 'var(--accent-light)' : 'var(--danger-light)'"
-            [style.color]="element.status === 'PRESENT' ? 'var(--accent)' : 'var(--danger)'">
-            {{ element.status }}
-          </span>
-        </td>
-      </ng-container>
+    <!-- Month Filter + Summary Cards -->
+    <div style="display: flex; gap: 16px; align-items: flex-start; flex-wrap: wrap; margin-bottom: 20px;">
+      <!-- Month/Year Selectors -->
+      <div class="panel" style="display: flex; gap: 12px; align-items: flex-end; flex: 0 0 auto; padding: 16px;">
+        <div>
+          <label class="form-label">Month</label>
+          <select [(ngModel)]="selectedMonth" (change)="onMonthChange()" class="form-select" style="min-width: 130px;">
+            <option *ngFor="let m of months" [ngValue]="m.value">{{ m.label }}</option>
+          </select>
+        </div>
+        <div>
+          <label class="form-label">Year</label>
+          <select [(ngModel)]="selectedYear" (change)="onMonthChange()" class="form-select" style="min-width: 90px;">
+            <option *ngFor="let y of years" [ngValue]="y">{{ y }}</option>
+          </select>
+        </div>
+      </div>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    
-    <div *ngIf="dataSource.length === 0" style="padding: 20px; text-align: center; color: var(--text-secondary);">
-      No attendance records found for this employee.
+      <!-- Summary Cards -->
+      <div style="display: flex; gap: 16px; flex: 1; flex-wrap: wrap;">
+        <div class="summary-card present-card">
+          <div class="summary-icon">✓</div>
+          <div>
+            <div class="summary-number">{{ presentCount }}</div>
+            <div class="summary-label">Days Present</div>
+          </div>
+        </div>
+        <div class="summary-card absent-card">
+          <div class="summary-icon">✗</div>
+          <div>
+            <div class="summary-number">{{ absentCount }}</div>
+            <div class="summary-label">Days Absent</div>
+          </div>
+        </div>
+        <div class="summary-card total-card">
+          <div class="summary-icon">📅</div>
+          <div>
+            <div class="summary-number">{{ presentCount + absentCount }}</div>
+            <div class="summary-label">Days Recorded</div>
+          </div>
+        </div>
+      </div>
     </div>
+
+    <!-- Attendance Table -->
+    <div class="panel table-container">
+      <h3 style="margin: 0 0 16px 0;">
+        {{ getSelectedEmployeeName() }}'s Attendance — {{ getMonthLabel() }} {{ selectedYear }}
+      </h3>
+
+      <div *ngIf="isLoading" style="padding: 40px; text-align: center; color: var(--text-secondary);">
+        Loading attendance...
+      </div>
+
+      <table mat-table [dataSource]="dataSource" class="premium-table" *ngIf="!isLoading && dataSource.length > 0">
+        <!-- Date Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef>Date</th>
+          <td mat-cell *matCellDef="let element">{{ element.date | date:'EEE, MMM d, y' }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef>Status</th>
+          <td mat-cell *matCellDef="let element">
+            <span class="status-badge"
+              [style.background]="element.status === 'PRESENT' ? 'var(--accent-light)' : 'var(--danger-light)'"
+              [style.color]="element.status === 'PRESENT' ? 'var(--accent)' : 'var(--danger)'">
+              {{ element.status === 'PRESENT' ? '✓ Present' : '✗ Absent' }}
+            </span>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <div *ngIf="!isLoading && dataSource.length === 0"
+        style="padding: 40px; text-align: center; color: var(--text-secondary);">
+        <div style="font-size: 32px; margin-bottom: 8px;">📋</div>
+        <p>No attendance records for {{ getMonthLabel() }} {{ selectedYear }}</p>
+        <p style="font-size: 13px;">Use the form above to start marking attendance.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Placeholder when no employee selected -->
+  <div *ngIf="!selectedEmployeeId" class="panel"
+    style="text-align: center; padding: 60px 20px; color: var(--text-secondary);">
+    <div style="font-size: 48px; margin-bottom: 16px;">👤</div>
+    <h3 style="margin: 0 0 8px;">Select an Employee</h3>
+    <p>Choose an employee from the dropdown above to view and manage their attendance.</p>
   </div>
 </div>
