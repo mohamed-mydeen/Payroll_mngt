@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.HttpStatus;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -21,19 +23,23 @@ public class AuthController {
     private final JwtUtils jwtUtils;
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponse> login(@RequestBody AuthRequest request) {
-        Authentication auth = authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
-        );
+    public ResponseEntity<?> login(@RequestBody AuthRequest request) {
+        try {
+            Authentication auth = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(request.getEmail(), request.getPassword())
+            );
 
-        CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
-        String token = jwtUtils.generateToken(userDetails);
+            CustomUserDetails userDetails = (CustomUserDetails) auth.getPrincipal();
+            String token = jwtUtils.generateToken(userDetails);
 
-        AuthResponse response = new AuthResponse();
-        response.setToken(token);
-        response.setEmployeeId(userDetails.getEmployeeId());
-        response.setRole(userDetails.getAuthorities().iterator().next().getAuthority());
-        return ResponseEntity.ok(response);
+            AuthResponse response = new AuthResponse();
+            response.setToken(token);
+            response.setEmployeeId(userDetails.getEmployeeId());
+            response.setRole(userDetails.getAuthorities().iterator().next().getAuthority());
+            return ResponseEntity.ok(response);
+        } catch (AuthenticationException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid email or password");
+        }
     }
 
     @GetMapping("/health")
