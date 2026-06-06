@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api/payroll")
 @RequiredArgsConstructor
-@CrossOrigin("*")
 public class PayrollController {
 
     private final PayrollService payrollService;
